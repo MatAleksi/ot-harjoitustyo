@@ -1,7 +1,6 @@
-# ot-harjoitustyo
+# Ohjelmistotekniikka, harjoitustyö
 
-Jotain tekstiä
+## Tehtävät
 
-**Lisää jotain tekstiä**
-
-*Vieläkin lisää __tekstiä__*
+### Viikko 1
+* [Komentorivi](https://github.com/MatAleksi/ot-harjoitustyo/blob/main/ot-harjoitustyo/viikko1/laskarit/gitlog.txt)
