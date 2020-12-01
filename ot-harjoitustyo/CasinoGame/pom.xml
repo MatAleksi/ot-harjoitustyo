@@ -40,7 +40,7 @@
                 <version>0.8.3</version>
                 <configuration>
                     <excludes>
-                        
+                        <exclude>CasinoGame/ui/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
