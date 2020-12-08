@@ -63,7 +63,7 @@ public class Roulette {
     public void betNumber(int number, int bet){
         betsNumbers[number] += player.bet(bet);
     }
-    public void spin(){
+    public int spin(){
         Random random = new Random();
         int result = random.nextInt(37);
         player.win(betsNumbers[result] * 35);
@@ -84,7 +84,27 @@ public class Roulette {
                 player.win(betsBlack * 2);
             }
         }
-        
         clearBets();
+        return result;
+        
+        
+    }
+    public int getBlackBets(){
+        return this.betsBlack;
+    }
+    public int getRedBets(){
+        return this.betsRed;
+    }
+    public int getEvenBets(){
+        return this.betsEven;
+    }
+    public int getOddBets(){
+        return this.betsOdd;
+    }
+    public int get19to36Bets(){
+        return this.bets19to36;
+    }
+    public int get1to18Bets(){
+        return this.bets1to18;
     }
 }
