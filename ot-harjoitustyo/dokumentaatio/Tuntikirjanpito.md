@@ -4,3 +4,5 @@
 | 16.11. | 4    | Projektin aloitus, testien tekeminen Player-luokalle |
 | 24.11. | 4    | Blackjackin alustavat metodit luotu |
 | 1.12. | 4     | Userinterfacen aloitus | 
+| 8.12. | 4     | Roulette toimivuus ja jarin korjaus |
+| yhteensä | 17  |
