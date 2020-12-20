@@ -2,20 +2,17 @@
 
 ## Sovelluksen tarkoitus
 
-Sovellus on kasinopeli jossa käyttäjä voi pelata erilaisia kasinopelejä. 
+Sovellus on kasinopeli jossa käyttäjä voi pelata rulettia ja blackjackia.
 
 ## Käyttäjät
 
-Käyttäjien rooli on pelin pelaaja. 
+Käyttäjä on sovelluksessa 
 
 ## Käyttöliittymä
 
-Käyttöliittymässä on aloitusnäkymä, josta käyttäjä voi siirtyä eri pelien näkymiin ja pelata niitä. Pelien näkymistä käyttäjä voi palata aloitusnäkymään. Kaikkissa näkymissä käyttäjä voi nähdä kuinka paljon pelirahaa käyttäjällä on. 
+Käyttöliittymän aloitusnäkymässä on napit joista käyttäjä voi siirtyä eri pelien näkymiin ja pelata niitä. Pelien näkymistä käyttäjä voi palata aloitusnäkymään. Kaikkissa näkymissä käyttäjä voi nähdä kuinka paljon pelirahaa käyttäjällä on. 
 
 ## Toiminnallisuus
 
-Sovelluksessa käyttäjä aloittaa tuhannella eurolla ja pyrkii pääsemään miljoonaan jolloin hän voi ostaa kasinon ja voittaa pelin. Käyttäjä voi pelata rulettia ja blackjackia. Jos käyttäjän rahat loppuvat, peli loppuu ja käyttäjä on hävinnyt pelin. 
+Sovelluksessa käyttäjä aloittaa kymmenellä tuhanella ja pyrkii voittamaan mahdollisimman paljon. Käyttäjä voi pelata rulettia ja blackjackia. Jos käyttäjän rahat loppuvat, käyttäjä ei voi enää pelata.
 
-## Jatkokehityideoita
-
-Lisää erilaisia pelejä, jos keksin ideoita. 
