@@ -5,4 +5,7 @@
 | 24.11. | 4    | Blackjackin alustavat metodit luotu |
 | 1.12. | 4     | Userinterfacen aloitus | 
 | 8.12. | 4     | Roulette toimivuus ja jarin korjaus |
-| yhteensä | 17  |
+| 18.12. | 8    | BlackjackGame luotu |
+| 19.12. | 12   | Blackjack ja ruletti kokonaan käyttöliittymässä |
+| 20.12. | 10   | Korjailua ja githubin kuntoon laittamista |
+| yhteensä | 47  |
