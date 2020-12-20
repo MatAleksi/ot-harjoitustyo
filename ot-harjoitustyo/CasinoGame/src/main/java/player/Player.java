@@ -1,5 +1,5 @@
 
-package com.mycompany.casinogame;
+package player;
 
 
 public class Player {

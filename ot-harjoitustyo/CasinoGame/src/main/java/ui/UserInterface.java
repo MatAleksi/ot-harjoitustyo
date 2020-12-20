@@ -1,14 +1,18 @@
 
 package ui;
 
-import com.mycompany.casinogame.Player;
-import com.mycompany.casinogame.Roulette;
+import player.Player;
+import blackjack.*;
+import roulette.Roulette;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,25 +25,213 @@ public class UserInterface extends Application{
     
     private Player player;
     private Roulette roulette;
+    private BlackjackGame blackjack;
         
     @Override
     public void init()throws Exception{
         player = new Player();
         roulette = new Roulette(player);
+        blackjack = new BlackjackGame(player);
     }
     
     @Override
-    public void start(Stage stage){
-        GridPane roulettemenu = new GridPane();
-        Label playerBank = new Label("Bank: " + player.getBank());
-        VBox betButtons = new VBox();
+    public void start(Stage stage){    
         
+        Label playerBank = new Label("Bank: " + player.getBank());
+        Label playerBank2 = new Label("Bank: " + player.getBank());
+        Button returnToMenuB = new Button("Main menu");
+        returnToMenuB.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent t){
+                stage.setScene(menuScene);
+            }
+        }); 
+        Slider betSlider = new Slider(0, player.getBank(), 1);
+        betSlider.setPrefWidth(200);
+        Label betLabel = new Label();
+        betLabel.textProperty().bind(Bindings.format("%.2f", betSlider.valueProperty()));
+        VBox slider = new VBox(betLabel, betSlider);
+        Slider betSlider2 = new Slider(0, player.getBank(), 1);
+        betSlider2.setPrefWidth(200);
+        Label betLabel2 = new Label();
+        betLabel2.textProperty().bind(Bindings.format("%.2f", betSlider2.valueProperty()));
+        VBox slider2 = new VBox(betLabel2, betSlider2);
+        
+        //Blackjack
+        GridPane blackjackmenu = new GridPane();
+        Label currentBet = new Label();
+        currentBet.setText("Bet: " + 0);
+        VBox gameInfo = new VBox(100);
+        Label playerHand = new Label();
+        if(blackjack.playerHand().length == 2){
+            playerHand.setText("Your hand: " + blackjack.playerHand()[0] + "or" + blackjack.playerHand()[1]);
+        }else{
+            playerHand.setText("Your hand: " + blackjack.playerHand()[0]);
+        }
+        Label dealerHand = new Label();
+        dealerHand.setText("Dealer hand: " + blackjack.dealerHand());
+        Label blackjackResult = new Label();
+        gameInfo.getChildren().add(dealerHand);
+        gameInfo.getChildren().add(blackjackResult);
+        gameInfo.getChildren().add(playerHand);
+        
+        VBox buttonsDuringGame = new VBox(10);
+        VBox buttonsBeforeGame = new VBox(10);
+        
+        Button stand = new Button("Stand");
+        stand.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent t){
+                blackjack.playerStand();
+                playerHand.setText("Your hand: " + blackjack.playerHand()[0]);
+                dealerHand.setText("Dealer hand: " + blackjack.dealerHand());
+                int winner = blackjack.winner();
+                if(winner == 0){
+                    blackjackResult.setText("Tie!");
+                }else if(winner == 1){
+                    blackjackResult.setText("You won!");
+                }else if(winner == 2){
+                    blackjackResult.setText("You lost!");
+                }else if(winner == 3){
+                    blackjackResult.setText("You won, Blackjack!");
+                }
+                blackjackmenu.getChildren().remove(buttonsDuringGame);
+                blackjackmenu.getChildren().add(buttonsBeforeGame);
+                playerBank2.setText("Bank: " + player.getBank());
+                betSlider2.setMax(player.getBank());
+            }
+        });
+        Button hit = new Button("Hit");
+        hit.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent t){
+                blackjack.playerHit();
+                if(blackjack.playerHand().length == 2){
+                    playerHand.setText("Your hand: " + blackjack.playerHand()[0] + "or" + blackjack.playerHand()[1]);
+                        }else{
+                    playerHand.setText("Your hand: " + blackjack.playerHand()[0]);
+                }
+                if(blackjack.hasPlayerLost()){
+                    blackjack.playerStand();
+                    playerHand.setText("Your hand: " + blackjack.playerHand()[0]);
+                    dealerHand.setText("Dealer hand: " + blackjack.dealerHand());
+                    int winner = blackjack.winner();
+                    if(winner == 0){
+                        blackjackResult.setText("Tie!");
+                    }else if(winner == 1){
+                        blackjackResult.setText("You won!");
+                    }else if(winner == 2){
+                        blackjackResult.setText("You lost!");
+                    }else if(winner == 3){
+                        blackjackResult.setText("You won, Blackjack!");
+                    }
+                    blackjackmenu.getChildren().remove(buttonsDuringGame);
+                    blackjackmenu.getChildren().add(buttonsBeforeGame);
+                    playerBank2.setText("Bank: " + player.getBank());
+                    betSlider2.setMax(player.getBank());
+                }
+            }
+        });
+        Button doubleb = new Button("Double");
+        doubleb.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent t){
+                blackjack.playerDouble();
+                currentBet.setText("Bet: " + blackjack.getBet());
+                if(blackjack.playerHand().length == 2){
+                    playerHand.setText("Your hand: " + blackjack.playerHand()[0] + "or" + blackjack.playerHand()[1]);
+                        }else{
+                    playerHand.setText("Your hand: " + blackjack.playerHand()[0]);
+                }
+                blackjack.playerStand();
+                playerHand.setText("Your hand: " + blackjack.playerHand()[0]);
+                dealerHand.setText("Dealer hand: " + blackjack.dealerHand());
+                int winner = blackjack.winner();
+                if(winner == 0){
+                    blackjackResult.setText("Tie!");
+                }else if(winner == 1){
+                    blackjackResult.setText("You won!");
+                }else if(winner == 2){
+                    blackjackResult.setText("You lost!");
+                }else if(winner == 3){
+                    blackjackResult.setText("You won, Blackjack!");
+                }
+                blackjackmenu.getChildren().remove(buttonsDuringGame);
+                blackjackmenu.getChildren().add(buttonsBeforeGame);
+                playerBank2.setText("Bank: " + player.getBank());
+                betSlider2.setMax(player.getBank());
+                
+            }
+        });
+        buttonsDuringGame.getChildren().add(hit);
+        buttonsDuringGame.getChildren().add(stand);
+        buttonsDuringGame.getChildren().add(doubleb);
+        
+        Button deal = new Button("Deal");
+        deal.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent t){
+                if(blackjack.getBet() != 0){
+                    blackjack.bet((int)betSlider2.getValue());
+                    playerBank2.setText("Bank: " + player.getBank());
+                    currentBet.setText("Bet: " + blackjack.getBet());
+                    blackjackmenu.getChildren().remove(buttonsBeforeGame);
+                    blackjack.start();
+                    if(blackjack.playerHand().length == 2){
+                        playerHand.setText("Your hand: " + blackjack.playerHand()[0] + "or" + blackjack.playerHand()[1]);
+                            }else{
+                        playerHand.setText("Your hand: " + blackjack.playerHand()[0]);
+                    }
+                    dealerHand.setText("Dealer hand: " + blackjack.dealerHand());
+                    blackjackmenu.add(buttonsDuringGame, 2, 0);
+                }
+            }    
+        });
+        buttonsBeforeGame.getChildren().add(deal);
+        buttonsBeforeGame.getChildren().add(slider2);
+        
+        blackjackmenu.getColumnConstraints().add(new ColumnConstraints(200));
+        blackjackmenu.getColumnConstraints().add(new ColumnConstraints(200));
+        blackjackmenu.getColumnConstraints().add(new ColumnConstraints(200));
+        blackjackmenu.add(buttonsBeforeGame, 2, 0);
+        blackjackmenu.add(gameInfo, 1, 0);
+        blackjackmenu.add(playerBank2, 0, 1);
+        blackjackmenu.add(returnToMenuB, 0, 2);
+        blackjackmenu.add(currentBet, 0, 0);
+        Scene blackjackScene = new Scene(blackjackmenu, 600, 300);
+        
+        //Roulette
+        GridPane roulettemenu = new GridPane();
+        VBox betButtons = new VBox(10);
+        
+        VBox betNumbers = new VBox();
+        HBox row = new HBox(10);
+        int rowSwap = 0;
+        Label[] betLabels = new Label[37];
+        for(int i = 0; i < 37; i++){
+            if(rowSwap == 3){
+                rowSwap = 0;
+                betNumbers.getChildren().add(row);
+                row = new HBox(5);
+            }
+            int buttonNumber = i;
+            Button buttonI = new Button("" + buttonNumber);
+            Label labelI = new Label();
+            labelI.setText(":" + 0);
+            buttonI.setOnAction(new EventHandler<ActionEvent>(){
+                public void handle(ActionEvent t){
+                    roulette.betNumber(buttonNumber, (int)betSlider.getValue());
+                    playerBank.setText("Bank: " + player.getBank());
+                    labelI.setText(":" + roulette.getNumberBet(buttonNumber));
+                }
+            });
+            row.getChildren().add(buttonI);
+            row.getChildren().add(labelI);
+            betLabels[i] = labelI;
+            rowSwap++;  
+        }
+            
         HBox betblackhbox = new HBox();
         Button betBlack = new Button("Bet Black");
         Label betBlackAmount = new Label(":" + roulette.getBlackBets());
         betBlack.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
-                roulette.betBlack(100);
+                roulette.betBlack((int)betSlider.getValue());
                 betBlackAmount.setText(":" + roulette.getBlackBets());
                 playerBank.setText("Bank: " + player.getBank());
             }
@@ -53,7 +245,7 @@ public class UserInterface extends Application{
         Label betRedAmount = new Label(":" + roulette.getRedBets());
         betRed.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
-                roulette.betRed(100);
+                roulette.betRed((int)betSlider.getValue());
                 betRedAmount.setText(":" + roulette.getRedBets());
                 playerBank.setText("Bank: " + player.getBank());
             }
@@ -67,7 +259,7 @@ public class UserInterface extends Application{
         Label betOddAmount = new Label(":" + roulette.getOddBets());
         betOdd.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
-                roulette.betOdd(100);
+                roulette.betOdd((int)betSlider.getValue());
                 betOddAmount.setText(":" + roulette.getOddBets());
                 playerBank.setText("Bank: " + player.getBank());
             }
@@ -81,7 +273,7 @@ public class UserInterface extends Application{
         Label betEvenAmount = new Label(":" + roulette.getEvenBets());
         betEven.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
-                roulette.betEven(100);
+                roulette.betEven((int)betSlider.getValue());
                 betEvenAmount.setText(":" + roulette.getEvenBets());
                 playerBank.setText("Bank: " + player.getBank());
             }
@@ -95,7 +287,7 @@ public class UserInterface extends Application{
         Label bet1to18Amount = new Label(":" + roulette.get1to18Bets());
         bet1to18.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
-                roulette.bet1to18(100);
+                roulette.bet1to18((int)betSlider.getValue());
                 bet1to18Amount.setText(":" + roulette.get1to18Bets());
                 playerBank.setText("Bank: " + player.getBank());
             }
@@ -109,7 +301,7 @@ public class UserInterface extends Application{
         Label bet19to36Amount = new Label(":" + roulette.get19to36Bets());
         bet19to36.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
-                roulette.bet19to36(100);
+                roulette.bet19to36((int)betSlider.getValue());
                 bet19to36Amount.setText(":" + roulette.get19to36Bets());
                 playerBank.setText("Bank: " + player.getBank());
             }
@@ -129,13 +321,17 @@ public class UserInterface extends Application{
                 betOddAmount.setText(":" + roulette.getOddBets());
                 bet1to18Amount.setText(":" + roulette.get1to18Bets());
                 bet19to36Amount.setText(":" + roulette.get19to36Bets());
+                for(int i = 0; i < 37; i++){
+                    betLabels[i].setText(":" + roulette.getNumberBet(i));
+                }
                 playerBank.setText("Bank: " + player.getBank());
                 result.setText("Result: " + spinResult);
+                betSlider.setMax(player.getBank());
             }
         });
         
-        Button returnToMenu = new Button("Main menu");
-        returnToMenu.setOnAction(new EventHandler<ActionEvent>(){
+        Button returnToMenuR = new Button("Main menu");
+        returnToMenuR.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
                 stage.setScene(menuScene);
             }
@@ -144,11 +340,17 @@ public class UserInterface extends Application{
         spinAndBank.getChildren().add(playerBank);
         spinAndBank.getChildren().add(spin);
         spinAndBank.getChildren().add(result);
-        roulettemenu.add(betButtons, 2, 0);
-        roulettemenu.add(returnToMenu, 0, 2);
+        roulettemenu.getColumnConstraints().add(new ColumnConstraints(100));
+        roulettemenu.getColumnConstraints().add(new ColumnConstraints(200));
+        roulettemenu.getColumnConstraints().add(new ColumnConstraints(300));
+        roulettemenu.add(slider, 1, 2);
+        roulettemenu.add(betButtons, 1, 0);
+        roulettemenu.add(betNumbers, 2, 0);
+        roulettemenu.add(returnToMenuR, 0, 2);
         roulettemenu.add(spinAndBank, 0, 0);
-        rouletteScene = new Scene(roulettemenu, 300, 180);
+        rouletteScene = new Scene(roulettemenu, 600, 600);
         
+        //Main menu
         GridPane menu = new GridPane();
         Label playerMoney = new Label("Money: " + player.getBank());
         menu.add(playerMoney, 0, 1);
@@ -158,6 +360,13 @@ public class UserInterface extends Application{
                 stage.setScene(rouletteScene);
             }
         });
+        Button blackjackButton = new Button("BlackJack");
+        blackjackButton.setOnAction(new EventHandler<ActionEvent>(){
+                public void handle(ActionEvent t){
+                    stage.setScene(blackjackScene);
+                }
+        });
+        menu.add(blackjackButton, 1, 1);
         menu.add(rouletteButton, 1, 0);
         menuScene = new Scene(menu, 250, 150);
         stage.setScene(menuScene);

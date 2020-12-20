@@ -1,6 +1,7 @@
 
 package com.mycompany.casinogame;
 
+import player.Player;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

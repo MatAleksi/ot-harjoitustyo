@@ -1,5 +1,6 @@
-package com.mycompany.casinogame;
+package roulette;
 
+import player.Player;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -43,7 +44,6 @@ public class Roulette {
     
     public void betEven(int bet){
         betsEven += player.bet(bet);
-        
     }
     public void betOdd(int bet){
         betsOdd += player.bet(bet);
@@ -106,5 +106,8 @@ public class Roulette {
     }
     public int get1to18Bets(){
         return this.bets1to18;
+    }
+    public int getNumberBet(int number){
+        return this.betsNumbers[number];
     }
 }

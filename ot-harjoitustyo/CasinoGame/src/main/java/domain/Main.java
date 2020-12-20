@@ -1,5 +1,5 @@
 
-package com.mycompany.casinogame;
+package domain;
 import ui.UserInterface;
 
 public class Main {
