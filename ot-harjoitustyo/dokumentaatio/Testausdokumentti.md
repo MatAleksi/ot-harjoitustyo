@@ -1,6 +1,6 @@
 # Testausdokumentti
 
-Sovellusta testattiin JUnitilla ja luoduilla testeillä. 
+Sovellusta testattiin JUnitilla ja omilla luoduilla testeillä. 
 
 ## Testauskattavuus 
 
