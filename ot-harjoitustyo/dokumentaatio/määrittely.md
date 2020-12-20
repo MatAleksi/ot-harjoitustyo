@@ -6,7 +6,7 @@ Sovellus on kasinopeli jossa käyttäjä voi pelata rulettia ja blackjackia.
 
 ## Käyttäjät
 
-Käyttäjä on sovelluksessa 
+Käyttäjä on sovelluksessa pelaaja kasinolla.
 
 ## Käyttöliittymä
 
