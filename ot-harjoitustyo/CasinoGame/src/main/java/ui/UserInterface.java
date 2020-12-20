@@ -36,12 +36,13 @@ public class UserInterface extends Application{
     
     @Override
     public void start(Stage stage){    
-        
+        Label playerMoney = new Label("Bank: " + player.getBank());
         Label playerBank = new Label("Bank: " + player.getBank());
         Label playerBank2 = new Label("Bank: " + player.getBank());
         Button returnToMenuB = new Button("Main menu");
         returnToMenuB.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
+                playerMoney.setText("Bank: " + player.getBank());
                 stage.setScene(menuScene);
             }
         }); 
@@ -166,8 +167,9 @@ public class UserInterface extends Application{
         Button deal = new Button("Deal");
         deal.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
+                blackjack.bet((int)betSlider2.getValue());
                 if(blackjack.getBet() != 0){
-                    blackjack.bet((int)betSlider2.getValue());
+                    blackjackResult.setText("");
                     playerBank2.setText("Bank: " + player.getBank());
                     currentBet.setText("Bet: " + blackjack.getBet());
                     blackjackmenu.getChildren().remove(buttonsBeforeGame);
@@ -333,6 +335,7 @@ public class UserInterface extends Application{
         Button returnToMenuR = new Button("Main menu");
         returnToMenuR.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
+                playerMoney.setText("Bank: " + player.getBank());
                 stage.setScene(menuScene);
             }
         });
@@ -352,17 +355,20 @@ public class UserInterface extends Application{
         
         //Main menu
         GridPane menu = new GridPane();
-        Label playerMoney = new Label("Money: " + player.getBank());
         menu.add(playerMoney, 0, 1);
         Button rouletteButton = new Button("Roulette");
         rouletteButton.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
+                betSlider.setMax(player.getBank());
+                playerBank.setText("Bank: " + player.getBank());
                 stage.setScene(rouletteScene);
             }
         });
         Button blackjackButton = new Button("BlackJack");
         blackjackButton.setOnAction(new EventHandler<ActionEvent>(){
                 public void handle(ActionEvent t){
+                    betSlider2.setMax(player.getBank());
+                    playerBank2.setText("Bank: " + player.getBank());
                     stage.setScene(blackjackScene);
                 }
         });

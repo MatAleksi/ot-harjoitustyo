@@ -1,5 +1,5 @@
 
-package com.mycompany.casinogame;
+package test;
 
 import player.Player;
 import org.junit.After;

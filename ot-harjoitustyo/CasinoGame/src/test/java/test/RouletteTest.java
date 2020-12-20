@@ -1,5 +1,5 @@
 
-package com.mycompany.casinogame;
+package test;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -95,4 +95,43 @@ public class RouletteTest {
         }
         assertEquals(0, totalbets);
     }
+    @Test
+    public void clearBetsWorks(){
+        roulette.bet1to18(100);
+        roulette.bet19to36(100);
+        roulette.betBlack(100);
+        roulette.betRed(100);
+        roulette.betEven(100);
+        roulette.betOdd(100);
+        for(int i = 0; i<37; i++){
+            roulette.betNumber(i, 100);
+        }
+        roulette.clearBets();
+        int totalbets = 0;
+        totalbets += roulette.get1to18Bets();
+        totalbets += roulette.get19to36Bets();
+        totalbets += roulette.getBlackBets();
+        totalbets += roulette.getRedBets();
+        totalbets += roulette.getEvenBets();
+        totalbets += roulette.getOddBets();
+        for(int i = 0; i<37; i++){
+            totalbets += roulette.getNumberBet(i);
+        }
+        assertEquals(totalbets, 0);
+    }
+    @Test
+    public void spinPaysWinner(){
+        int numberOfMissedSpins = 1;
+        for(int i = 0; i < 1000; i++){
+            roulette.betNumber(0, 10);
+            int result = roulette.spin();
+            if(result == 0){
+                break;
+            }
+            numberOfMissedSpins++;
+        }
+        assertEquals(10000 - (10 * numberOfMissedSpins) + 350, player.getBank());
+    }
+    
+    
 }

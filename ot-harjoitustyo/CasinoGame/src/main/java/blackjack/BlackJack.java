@@ -81,10 +81,9 @@ public class BlackJack {
         return dealerHasAce;
     }
     public void doubleBet(){
-        bet(this.bet);
+        this.bet = bet*2;
     }
-    public void playerWin(){
-        player.win(bet*2);
+    public void clearTable(){
         this.bet = 0;
         this.playerHand = 0;
         this.dealerHand = 0;
@@ -92,37 +91,23 @@ public class BlackJack {
         this.dealerHasAce = false;
         this.playerBlackJack = false;
         this.dealerBlackJack = false;
+    }
+    public void playerWin(){
+        player.win(bet*2);
+        clearTable();
     }
     public void playerWinBlackJack(){
         //Should be 2.5 according to rules but it's 3 for now
         player.win(bet*3);
-        this.bet = 0;
-        this.playerHand = 0;
-        this.dealerHand = 0;
-        this.playerHasAce = false;
-        this.dealerHasAce = false;
-        this.playerBlackJack = false;
-        this.dealerBlackJack = false;
+        clearTable();
     }
     public void playerLose(){
         bet = 0;
-        this.bet = 0;
-        this.playerHand = 0;
-        this.dealerHand = 0;
-        this.playerHasAce = false;
-        this.dealerHasAce = false;
-        this.playerBlackJack = false;
-        this.dealerBlackJack = false;
+        clearTable();
     }
     public void tie(){
         player.win(bet);
-        this.bet = 0;
-        this.playerHand = 0;
-        this.dealerHand = 0;
-        this.playerHasAce = false;
-        this.dealerHasAce = false;
-        this.playerBlackJack = false;
-        this.dealerBlackJack = false;
+        clearTable();
     }
     public void ace11Player(){
         playerHand = playerHand+10;
